@@ -1,0 +1,147 @@
+@import "../../styles/palette";
+
+
+.main {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.sidebar {
+    width: 22%;
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    transition: 0.3s;
+    @media (max-width: $lg) {
+        width: 90px;
+        margin: 0;
+        padding: 0;
+    }
+    @media (max-width: $sm) {
+        width: 0;
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+.container {
+    width: 78%;
+    height: 100%;
+    transition: 0.3s;
+    @media (max-width: $lg) {
+        width: calc(100% - 90px);
+    }
+    @media (max-width: $sm) {
+        width: 100%;
+    }
+}
+
+.contextWrapper {
+    width: 100%;
+    height: calc(100% - 80px);
+    display: flex;
+    overflow-y: scroll;
+}
+
+.context {
+    width: 66.66%;
+    height: min-content;
+    border-left: 1px solid #e7edf2;
+    border-right: 1px solid #e7edf2;
+    padding: 20px 30px 20px 30px;
+    font-family: "Quicksand";
+    transition: 0.3s;
+    @media (max-width: $lg) {
+        border-right: none;
+        width: 100%;
+    }
+    @media (max-width: $sm) {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+}
+
+.members {
+    width: 33.33%;
+    height: 100%;
+    padding-right: 80px;
+    transition: 0.3s;
+    @media (max-width: $lg) {
+        padding: 0;
+        width: 0;
+        visibility: hidden;
+    }
+}
+
+.sidebarBox1 {
+    background: white;
+    background-image: radial-gradient(circle, transparent 0%, rgba($secondary, 0.1) 70%, rgba($secondary, 0.2) 100%);
+    height: 40%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 25%;
+    @media (max-width: $lg) {
+        padding-top: 0;
+        height: 80px;
+        cursor: pointer;
+    }
+}
+
+.sidebarBox2 {
+    background: linear-gradient(-45deg, $primary, $secondary);
+    height: 60%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 45%;
+    @media (max-width: $lg) {
+        height: calc(100% - 80px);
+    }
+}
+
+.sidebarLogo {
+    display: block;
+    max-width: 225px;
+    max-height: 125px;
+    width: auto;
+    height: auto;
+    margin: 20px;
+    pointer-events: none;
+    @media (max-width: $lg) {
+        height: 0;
+        line-height: 0;
+        visibility: hidden;
+    }
+}
+
+.sidebarLogoSmall {
+    width: 80px;
+    height: 80px;
+    padding: 15px;
+    visibility: hidden;
+    position: fixed;
+    top: 0;
+    @media (max-width: $lg) {
+        visibility: visible;
+    }
+}
+
+.hr {
+    border: none;
+    border-bottom: 1px solid #e7edf2;
+    border-radius: 0;
+    width: 100%;
+}
+
+.loginOrAccountPanel {
+    visibility: visible;
+    transition: 0s;
+    @media (max-width: $lg) {
+        opacity: 0;
+        visibility: hidden;
+    }
+}

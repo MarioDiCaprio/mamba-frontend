@@ -1,0 +1,27 @@
+// Google Fonts: "Quicksand"
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap');
+// Google Fonts: "Comfortaa"
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+// Google Fonts: "Montserrat"
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+// Google Fonts: "Montserrat Alternates"
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap');
+// Google Fonts: "Dancing Script"
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+
+html, body {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+        Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+}

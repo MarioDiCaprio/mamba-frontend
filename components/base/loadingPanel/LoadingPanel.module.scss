@@ -1,0 +1,44 @@
+.loadingPanel {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+    .skeleton {
+        &:first-child {
+            border-radius: 12px 12px 0 0;
+        }
+        &:last-child {
+            border-radius: 0 0 12px 12px;
+        }
+    }
+}
+
+.skeleton {
+    background: rgba(39, 39, 39, 0.616);
+    width: 100%;
+    animation: pulse 1.5s cubic-bezier(0.5, 5, 0.5, 5) 0s infinite normal none;
+}
+
+.boxSkeleton {
+    @extend .skeleton;
+    height: 150px;
+}
+
+.lineSkeleton {
+    @extend .skeleton;
+    height: 40px;
+}
+
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.45;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}

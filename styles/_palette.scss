@@ -1,0 +1,65 @@
+// color palette
+$primary: #fc558d;
+$secondary: #f76f62;
+$grey: rgb(124, 124, 124);
+$success: #04E762;
+$info: #1F9EFF;
+$error: rgb(255, 20, 71);
+$light: rgb(250, 250, 250);
+
+// size palette
+$xs: 0px;
+$sm: 600px;
+$md: 900px;
+$lg: 1200px;
+$xl: 1536px;
+
+// rainbow animation
+//$rainbowGradient: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+$rainbowGradient: linear-gradient(90deg, $primary, $secondary, $primary);
+$rainbowAnimation: rainbow 1.5s linear infinite;
+@mixin rainbowHoverable {
+    transform: translate(0%, 0%);
+    background: $rainbowGradient;
+    //background-size: 400%;
+    z-index: 1;
+    animation: $rainbowAnimation;
+    animation-fill-mode: forwards;
+    animation-play-state: paused;
+    transition: 0.5s;
+    &::before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        z-index: -1;
+        background: $rainbowGradient;
+        background-size: 400%;
+        border-radius: 40px;
+        opacity: 0;
+        animation: $rainbowAnimation;
+        animation-fill-mode: forwards;
+        animation-play-state: paused;
+        transition: 0.5s;
+    }
+    &:hover {
+        animation-play-state: running;
+        transition: 0.5s;
+        &::before {
+            filter: blur(5px);
+            opacity: 1;
+            animation-play-state: running;
+            transition: 0.5s;
+        }
+    }
+}
+@keyframes rainbow {
+    0% {
+        background-position: 0%;
+    }
+    100% {
+        background-position: 100%;
+    }
+}

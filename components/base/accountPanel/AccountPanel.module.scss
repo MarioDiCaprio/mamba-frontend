@@ -1,0 +1,56 @@
+@import "../../../styles/palette";
+
+.accountPanel {
+    width: 280px;
+    background: $light;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 2.5rem 2.5rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 5px 5px 25px rgba(65, 65, 65, 0.274);
+}
+
+.profilePicture {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.75rem;
+}
+
+.hr {
+    border: none;
+    border-bottom: 1px solid #e7edf2;
+    border-radius: 0;
+    width: 100%;
+    margin: 15px 0 15px 0;
+}
+
+.followersAndFollowing {
+    display: flex;
+    padding: 5px;
+    user-select: none;
+    div {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 5px;
+        cursor: pointer;
+        &:hover {
+            box-shadow: 3px 2px 8px #e7edf2;
+            transition: 0.3s;
+        }
+        span {
+            margin: 0 15px 0 15px;
+        }
+        span:first-child{
+            color: rgb(170, 170, 170);
+            font-size: small;
+            margin-bottom: 10px;
+        }
+        span:last-child {
+            color: $primary;
+            font-size: larger;
+        }
+    }
+}

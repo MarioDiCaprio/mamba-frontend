@@ -1,0 +1,139 @@
+@import "/styles/palette";
+
+
+.context {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    max-width: 450px;
+    height: 95%;
+    padding: 140px 0px 140px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+    padding: 2px 8px 2px 8px;
+}
+
+.navbarInner {
+    height: 100%;
+    width: 1100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbarTitle {
+    color: $primary;
+    font-family: "Montserrat Alternates";
+}
+
+.formAndHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    margin-bottom: 10px;
+    line-height: 1.5;
+    font-family: "Comfortaa";
+}
+
+.description {
+    text-align: center;
+    line-height: 30px;
+    margin-bottom: 15px;
+    width: 92%;
+    color: $grey;
+    font-size: 15px;
+}
+
+.form {
+    width: 92%;
+}
+
+.inputGroup {
+    margin-bottom: 10px;
+}
+
+.inputWrapper {
+    border: 1px solid #e7edf2;
+    border-top: none;
+    height: 60px;
+    width: 100%;
+    padding-left: 1rem;
+    display: flex;
+    align-items: center;
+    font-size: larger;
+    &:hover {
+        box-shadow: 0px 0px 15px $primary;
+        transform: scale(101%);
+        transition: 0.3s;
+    }
+    &:first-child {
+        border-radius: 12px 12px 0px 0px;
+        border-top: 1px solid #e7edf2;
+    }
+    &:last-child {
+        border-radius: 0px 0px 12px 12px;
+    }
+}
+
+.input {
+    border: none;
+    border-radius: 12px;
+    outline: none;
+    margin-left: 20px;
+    height: 100%;
+    width: 100%;
+}
+
+.additionalButtons {
+    display: flex;
+    justify-content: space-between;
+    font-size: small;
+    color: $grey;
+}
+
+.passwordRecoveryLink {
+    cursor: pointer;
+    &:hover {
+        color: $primary;
+        text-decoration: underline;
+    }
+}
+
+.registerLinkWrapper {
+    font-size: small;
+    color: $grey;
+    margin-top: 100px;
+}
+
+.registerLink {
+    color: $primary;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.validation {
+    font-size: small;
+    color: $grey;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}

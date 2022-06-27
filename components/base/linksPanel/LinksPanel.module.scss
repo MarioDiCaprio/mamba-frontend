@@ -1,0 +1,60 @@
+@import "../../../styles/palette";
+
+
+.linksPanel {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    gap: 25px;
+    @media (min-width: $lg) and (max-height: 1000px) {
+        height: 10%;
+        position: fixed;
+        top: 90%;
+        flex-direction: row;
+    }
+}
+
+.panelLink {
+    color: lighten($secondary, 10%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-family: "Comfortaa";
+    transition: 0.3s;
+    &:hover {
+        color: white;
+        transition: 0.3s;
+        span {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
+    span {
+        transition: 0.3s;
+        opacity: 0;
+        position: fixed;
+        color: white;
+        background: rgba(0, 0, 0, 0.719);
+        font-size: small;
+        padding: 10px;
+        border-radius: 15px;
+        transform: translateY(-50px);
+        visibility: hidden;
+        &::after {
+            content: " ";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: rgba(0, 0, 0, 0.719) transparent transparent transparent;
+        }
+    }
+}
+
+.panelLinkActive {
+    color: white;
+}
