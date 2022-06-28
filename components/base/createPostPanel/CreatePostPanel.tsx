@@ -163,6 +163,11 @@ const CreatePostPanel: React.FC<CreatePostPanelProps> = ({ user }) => {
 
     function handleClose() {
         $('.' + styles.postTypePopup).removeClass(styles.postTypeSelectionFlipped);
+        switch (typeSelected) {
+            case "TEXT":
+                $('.' + styles.textPost).removeClass(styles.postFlipped);
+                break;
+        }
         setTypeSelected(undefined);
     }
 

@@ -3,19 +3,22 @@
 
 .main {
     background: white;
-    border-radius: 14px;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.219);
+    border-radius: 8px;
+    border: 1px solid rgb(226, 226, 226);
     width: 100%;
     padding: 20px;
     transition: 0.3s;
     &:hover {
         box-shadow: 1px 1px 15px lighten($secondary, 10%);
+        border-color: transparent;
         transition: 0.3s;
     }
     @media (max-width: $sm) {
         padding: 15px;
         box-shadow: none;
         border-radius: 0;
+        border-left: none;
+        border-right: none;
     }
 }
 
