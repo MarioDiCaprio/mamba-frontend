@@ -34,8 +34,15 @@ interface BtnMenuItemProps {
  */
 const BtnMenuItem: React.FC<BtnMenuItemProps> = ({ id, icon, title, children, onClick, open=false }) => {
     /** The styles to be applied to the component's collapsible */
-    const css = [styles.collapsedMenu];
-    if (open) css.push(styles.collapsedShow);
+    const collapsibleMenuCss = [styles.collapsedMenu];
+
+    /** The styles to be applied to the component's icon button */
+    const menuIconCss = [styles.menuIcon];
+
+    if (open) {
+        collapsibleMenuCss.push(styles.collapsedShow);
+        menuIconCss.push(styles.menuIconActive);
+    } 
 
     /** Handles a click of this component's button */
     function handleClick() {
@@ -45,11 +52,11 @@ const BtnMenuItem: React.FC<BtnMenuItemProps> = ({ id, icon, title, children, on
     return (
         <div id={id} className={styles.menuItem}>
             {/* Button */}
-            <div id={`${id}-icon`} className={styles.menuIcon} role="button" onClick={handleClick}>
+            <div id={`${id}-icon`} className={menuIconCss.join(' ')} role="button" onClick={handleClick}>
                 { icon }
             </div>
             {/* Collapsible Menu */}
-            <div id={`${id}-collapsed`} className={css.join(' ')}>
+            <div id={`${id}-collapsed`} className={collapsibleMenuCss.join(' ')}>
                 {/* Menu title */}
                 <div className={styles.collapsedMenuTitle}>
                     { title }
@@ -76,8 +83,6 @@ interface BtnMenuProps {
  * @returns The component
  */
 const BtnMenu: React.FC<BtnMenuProps> = ({ user }) => {
-    const profilePicture = convertBinaryProfilePicture(user?.profilePicture, { className: styles.menuIcon });
-
     /** Handles the currently opened collapsible menu by saving its ID */
     const [active, setActive] = useState<string | undefined>(undefined);
 
@@ -93,19 +98,14 @@ const BtnMenu: React.FC<BtnMenuProps> = ({ user }) => {
     /** The user's profile picture if logged in or a link to the login page otherwise */
     const PictureOrLogin = () => {
         // if user not logged in: link to login page
-        if (profilePicture === null) {
+        if (user === undefined) {
             return (
                 <div className={styles.loginLink}>
                     <Link href="/">Login</Link>
                 </div>
             );
         }
-        // if user logged in: profile picture
-        if (profilePicture !== undefined) {
-            return profilePicture;
-        }
-        // if still fetching data: nothing
-        return <></>;
+        return convertBinaryProfilePicture(user?.profilePicture, { className: styles.menuIcon });
     }
 
     return (

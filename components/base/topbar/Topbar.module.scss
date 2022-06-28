@@ -56,13 +56,14 @@
     border: 1px solid #e7edf2;
     cursor: pointer;
     transition: 0.3s;
-    &:hover {
-        transition: 0.3s;
-        transform: translateY(-5px);
-        color: white;
-        background: lighten($primary, 30%);
-        border: 2px solid lighten($primary, 25%);
-    }
+}
+
+.menuIconActive, .menuIcon:hover {
+    transition: 0.3s;
+    transform: translateY(-5px);
+    color: white;
+    background: lighten($primary, 30%);
+    border: 2px solid lighten($primary, 25%);
 }
 
 .collapsedMenu {
