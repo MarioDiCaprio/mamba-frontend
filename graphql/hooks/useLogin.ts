@@ -34,6 +34,7 @@ export default function useLogin(): LoginFunction {
                     dispatch(setLoginCredentials(newCredentials));
                     resolve(true);
                 } else {
+                    dispatch(setLoginCredentials({ username: null, password: null, remember: true }));
                     resolve(false);
                 }
             })

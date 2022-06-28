@@ -32,6 +32,7 @@ export default function useRegister(): RegisterFunction {
                     dispatch(setLoginCredentials(newCredentials));
                     resolve(true);
                 } else {
+                    dispatch(setLoginCredentials({ username: null, password: null, remember: true }));
                     resolve(false);
                 }
             })

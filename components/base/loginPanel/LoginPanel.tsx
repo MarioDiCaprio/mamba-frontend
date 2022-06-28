@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import Link from "next/link";
@@ -7,6 +7,7 @@ import { RiKey2Line as KeyIcon } from 'react-icons/ri';
 import styles from "./LoginPanel.module.scss";
 import { useRouter } from "next/router";
 import useLogin from "../../../graphql/hooks/useLogin";
+import LoadingScreen from "../../loadingScreen/LoadingScreen";
 
 
 /**
@@ -16,8 +17,12 @@ import useLogin from "../../../graphql/hooks/useLogin";
  * @returns The login panel
  */
 const LoginPanel: React.FC = () => {
+    const [loading, setLoading] = useState<boolean>(false);
+
     const login = useLogin();
+
     const router = useRouter();
+
     /** Formik object. */
     const formik = useFormik({
         initialValues: {
@@ -29,17 +34,20 @@ const LoginPanel: React.FC = () => {
             password: Yup.string().required('Password is required')
         }),
         onSubmit: (values) => {
+            setLoading(true);
             const username = (values.username === '')? null : values.username;
             const password = (values.username === '')? null : values.password;
 
             login({ username, password }, true)
             .then(success => {
                 if (!success) {
+                    setLoading(false);
                     formik.setErrors({ username: "Username or Password invalid" });
                 } else {
                     router.reload();
                 }
             }).catch(() => {
+                setLoading(false);
                 formik.setErrors({ username: "Failed to connect to server" });
             });
         }
@@ -47,6 +55,8 @@ const LoginPanel: React.FC = () => {
 
     return (
         <div className={styles.loginPanel}>
+
+                <LoadingScreen open={loading} />
 
                 {/* Header */}
                 <h3 className={styles.loginPanelHeader}>
