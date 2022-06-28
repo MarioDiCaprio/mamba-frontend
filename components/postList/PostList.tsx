@@ -13,7 +13,7 @@ interface PostListProps {
 const PostList: React.FC<PostListProps> = ({ posts = [], isLoading = false, isError = false }) => {
     if (isError) {
         return (
-            <div className={styles.main}>
+            <div className={styles.postList}>
                 <h1 className={styles.errorMessage}>Error loading data!</h1>
             </div>
         );
@@ -21,7 +21,7 @@ const PostList: React.FC<PostListProps> = ({ posts = [], isLoading = false, isEr
 
     if (isLoading) {
         return (
-            <div className={styles.main}>
+            <div className={styles.postList}>
                 <div className={styles.skeleton} />
                 <div className={styles.skeleton} />
                 <div className={styles.skeleton} />
