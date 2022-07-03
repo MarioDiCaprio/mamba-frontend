@@ -7,6 +7,9 @@ import PostComp from "../../postComp/PostComp";
 import styles from "./LikedPostsLoader.module.scss";
 
 
+/**
+ * GraphQL request to fetch all posts liked by this user.
+ */
 const USER_BY_USERNAME_GQL = gql`
     query LikedPosts($username: String) {
         userByUsername(username: $username) {
@@ -28,6 +31,10 @@ const USER_BY_USERNAME_GQL = gql`
 `;
 
 
+/**
+ * This component displays all posts that are liked by the logged-in user.
+ * @returns The component.
+ */
 const LikedPostsLoader: React.FC = () => {
     const username = useSelector((state: RootState) => state.loginCredentials.username);
 

@@ -15,41 +15,23 @@ import ImageChooser from '../../imageChooser/ImageChooser';
 import base64ToBlob from '../../../utils/base64ToBlob';
 
 
-type CreateTextPostInput = {
-    title?: string;
-    text?: string;
-    userId: string;
-}
-
-const CREATE_TEXT_POST_GQL = gql`
-    mutation CreateTextPost($title: String, $text: String, $userId: String!) {
-        createPost(request: {
-            title: $title,
-            text: $text,
-            ownerId: $userId,
-            type: TEXT
-        }) {
-            postId
-        }
-    }
-`;
-
-type CreatePicturePostInput = {
+/**
+ * Inputs for the GraphQL `createPost` mutation.
+ */
+type CreatePostInput = {
     title?: string;
     text?: string;
     media?: number[];
     userId: string;
+    type: PostType;
 }
 
-const CREATE_PICTURE_POST_GQL = gql`
-    mutation CreatePicturePost($title: String, $text: String, $media: Upload, $userId: String!) {
-        createPost(request: {
-            title: $title,
-            text: $text,
-            media: $media,
-            ownerId: $userId,
-            type: TEXT
-        }) {
+/**
+ * The GraphQL `createPost` operation.
+ */
+const CREATE_POST_GQL = gql`
+    mutation CreatePost($request: CreatePostRequest!) {
+        createPost(request: request) {
             postId
         }
     }
@@ -57,6 +39,10 @@ const CREATE_PICTURE_POST_GQL = gql`
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Props for the `<PostTypeSelection>` component.
+ * @see {@link PostTypeSelection}
+ */
 interface PostTypeSelectionProps {
     icon: JSX.Element;
     title: string;
@@ -64,6 +50,12 @@ interface PostTypeSelectionProps {
     onClick?: (type: PostType) => void;
 }
 
+/**
+ * View that contains a post type selection. It contains an icon and a title for
+ * the post selection.
+ * @param param0 The props for the selection
+ * @returns The component
+ */
 const PostTypeSelection: React.FC<PostTypeSelectionProps> = ({ title, icon, type, onClick }) => {
     function handleClick() {
         if (onClick !== undefined) onClick(type);
@@ -72,24 +64,37 @@ const PostTypeSelection: React.FC<PostTypeSelectionProps> = ({ title, icon, type
     return (
         <div className={styles.postTypeSelection}>
             <span className={styles.postTypeSelectionIcon} onClick={handleClick}>
-                { icon }
+                {icon}
             </span>
             <span className={styles.postTypeSelectionTitle}>
-                { title }
+                {title}
             </span>
         </div>
     );
 }
 
+////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Props for any post selection component.
+ * @see {@link TextPost}, {@link PicturePost}
+ */
 interface PostProps {
+    /** The author of the post */
     user?: User;
+    /** Event that is triggered when the post is posted and the server is loading */
     onLoading?: (loading: boolean) => void;
+    /** Event that is triggered when the post menu is closed */
     onClose?: () => void;
 }
 
+/**
+ * This component is the popup menu that is shown when the user creates a textual post.
+ * @param param0 The props for the component
+ * @returns The component
+ */
 const TextPost: React.FC<PostProps> = ({ user, onLoading, onClose }) => {
-    const [createTextPost, { loading }] = useMutation<{ createPost: Post }, CreateTextPostInput>(CREATE_TEXT_POST_GQL);
+    const [createTextPost, { loading }] = useMutation<{ createPost: Post }, CreatePostInput>(CREATE_POST_GQL);
 
     useEffect(() => {
         if (onLoading) onLoading(loading);
@@ -108,11 +113,12 @@ const TextPost: React.FC<PostProps> = ({ user, onLoading, onClose }) => {
         }),
         onSubmit: (data) => {
             createTextPost({
-               variables: {
-                   title: data.title,
-                   text: data.text,
-                   userId: user?.userId ?? ''
-                } 
+                variables: {
+                    title: data.title,
+                    text: data.text,
+                    userId: user?.userId ?? '_',
+                    type: 'TEXT'
+                }
             })
             .then(() => {
                 router.reload();
@@ -162,10 +168,16 @@ const TextPost: React.FC<PostProps> = ({ user, onLoading, onClose }) => {
     );
 }
 
+
+/**
+ * This component is the popup menu that is shown when the user creates a post with a picture.
+ * @param param0 The props for the component
+ * @returns The component
+ */
 const PicturePost: React.FC<PostProps> = ({ user, onLoading, onClose }) => {
     const [base64Image, setBase64Image] = useState<string | null>(null);
 
-    const [createPicturePost, { loading }] = useMutation<{ createPost: Post }, CreatePicturePostInput>(CREATE_PICTURE_POST_GQL);
+    const [createPicturePost, { loading }] = useMutation<{ createPost: Post }, CreatePostInput>(CREATE_POST_GQL);
 
     useEffect(() => {
         if (onLoading) onLoading(loading);
@@ -186,17 +198,18 @@ const PicturePost: React.FC<PostProps> = ({ user, onLoading, onClose }) => {
             console.log('hello')
             console.log(base64ToBlob(base64Image))
             createPicturePost({
-               variables: {
-                   title: data.title,
-                   text: data.text,
-                   // @ts-ignore
-                   media: base64ToBlob(base64Image) ?? undefined,
-                   userId: user?.userId ?? ''
-                } 
+                variables: {
+                    title: data.title,
+                    text: data.text,
+                    // @ts-ignore
+                    media: base64ToBlob(base64Image) ?? undefined,
+                    userId: user?.userId ?? '_',
+                    type: 'PICTURE'
+                }
             })
-            .then(() => {
-                router.reload();
-            });
+                .then(() => {
+                    router.reload();
+                });
         }
     });
 
@@ -245,11 +258,24 @@ const PicturePost: React.FC<PostProps> = ({ user, onLoading, onClose }) => {
     );
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * The props for the `<CreatePostPanel>` component.
+ * @see {@link CreatePostPanel}
+ */
 interface CreatePostPanelProps {
     user?: User
 }
 
+/**
+ * This is the component that allows a user to create a post. It consists of
+ * a button that, when clicked, shows a popup with a selection of post types
+ * ({@link PostTypeSelection}). When a selection is made the popup changes to
+ * display a menu for creating the selected post type ({@link TextPost}, {@link PicturePost}).
+ * @param param0 The props for the component
+ * @returns The component
+ */
 const CreatePostPanel: React.FC<CreatePostPanelProps> = ({ user }) => {
     const [loading, setLoading] = useState<boolean>(false);
 

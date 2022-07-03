@@ -2,6 +2,10 @@ import React from "react";
 import styles from "./CometSpinner.module.scss";
 
 
+/**
+ * This is a spinner that entails two orbiting comets.
+ * @returns The component
+ */
 const CometSpinner: React.FC = () => {
     return (
         <div className={styles.loader}>

@@ -4,13 +4,25 @@ import PostComp from "../postComp/PostComp";
 import styles from "./PostList.module.scss";
 
 
+/**
+ * The props for the {@link PostList} component.
+ */
 interface PostListProps {
     posts?: Post[];
     isLoading?: boolean;
     isError?: boolean;
 }
 
+
+/**
+ * This component renders a list of posts. each post is mapped to a {@link PostComp}, which is then
+ * laid out into a container.
+ * @param param0 The props for the component
+ * @returns The component
+ * @see {@link Post}
+ */
 const PostList: React.FC<PostListProps> = ({ posts = [], isLoading = false, isError = false }) => {
+    // if error: return error screen
     if (isError) {
         return (
             <div className={styles.postList}>
@@ -19,6 +31,7 @@ const PostList: React.FC<PostListProps> = ({ posts = [], isLoading = false, isEr
         );
     }
 
+    // if loading: return loading screen
     if (isLoading) {
         return (
             <div className={styles.postList}>
@@ -29,6 +42,7 @@ const PostList: React.FC<PostListProps> = ({ posts = [], isLoading = false, isEr
         );
     }
 
+    // map each post to an appropriate component
     const list = posts.map(post => (
         <div className={styles.postWrapper} key={`post-wrapper-${post.postId}`}>
             <PostComp post={post} />
