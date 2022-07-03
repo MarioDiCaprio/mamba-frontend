@@ -1,15 +1,16 @@
 # Mamba (frontend)
 This is the frontend of the *Mamba* website. It is a *NodeJS* application written in
 *Typescript* and *Sass*. Furthermore, it uses *NextJS* to easily manage routes and
-resources.
+resources. Testing, both Unit and E2E, is done with *Cypress*.
 
 ## Tech Stack
 This project utilizes the following technologies:
-- NextJS (React)
-- Redux (Redux Toolkit)
-- Apollo GraphQL
-- Typescript
-- Sass
+- [NextJS](https://nextjs.org/)
+- [Redux](https://redux.js.org/) ([Redux Toolkit](https://redux-toolkit.js.org/))
+- [Apollo GraphQL](https://www.apollographql.com/docs/react)
+- [Typescript](https://www.typescriptlang.org/)
+- [Sass](https://sass-lang.com/)
+- [Cypress](https://www.cypress.io/)
 
 ## Project Structure
 This application has the following structure:
@@ -41,6 +42,22 @@ This application has the following structure:
     for components under `/pages`.
 - `/utils`:
     Contains other utilities.
+
+## Testing
+This project uses *Cypress* for both Unit- and E2E-Tests. Please follow these instructions to run the
+tests.
+### Unit Tests
+In order to run Unit Tests you first need to build the project: `yarn build`. After that you can run
+all tests with `yarn cypress:run:ct`.
+- Unit tests are located in a folder alongside each component in the `/components` directory.
+### E2E Tests
+In order to run E2E Tests you need to start the development server first: `yarn dev`. Then, run all
+tests with `yarn cypress:run`.
+- E2E tests address the components under the `/pages` directory and are located under `/cypress/e2e`.
+
+## Requirements
+This application requires [NodeJS](https://nodejs.org) (v.16 or above, though older versions may work too) and
+its package manager [Yarn](https://yarnpkg.com/) to be installed.
 
 ## Deployment
 This application was deployed on *Heroku* and is publicly accessible [here](https://mamba-frontend.herokuapp.com).
