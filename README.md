@@ -24,8 +24,6 @@ This application has the following structure:
     - Components for a page are contained in a directory with an underscore and the page's name.
       For example, components for the page `/activity` are stored in a directory with the name
       `/components/_activity`.
-- `/declarations`:
-    Typescript declarations.
 - `/graphql`:
     This directory contains data related to the *GraphQL API*.
     - `api.tsx`: Customizes the API
