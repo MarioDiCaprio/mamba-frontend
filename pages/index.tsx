@@ -8,9 +8,9 @@ import { RiKey2Line as KeyIcon } from 'react-icons/ri';
 import GlowingButton from '../components/buttons/glowingButton/GlowingButton';
 import SplashCheckbox from '../components/checkboxes/splashCheckbox/SplashCheckbox';
 import Link from 'next/link';
-import styles from '../styles/Home.module.scss';
 import useLogin from '../graphql/hooks/useLogin';
 import LoadingScreen from '../components/loadingScreen/LoadingScreen';
+import styles from '../styles/Home.module.scss';
 
 
 export const Navbar: React.FC = () => {
@@ -21,7 +21,12 @@ export const Navbar: React.FC = () => {
                     Mamba
                 </h2>
                 <div className={styles.navbarItems}>
-                    hello
+                    {/* Link to /activity */}
+                    <Link href="/activity">
+                        <span className={styles.navbarLink}>
+                            Activity
+                        </span>
+                    </Link>
                 </div>
             </div>
         </div>
