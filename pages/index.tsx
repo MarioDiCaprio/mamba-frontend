@@ -87,7 +87,7 @@ const Home: NextPage = () => {
                     </p>
 
                     {/* Form */}
-                    <form className={styles.form} onSubmit={formik.handleSubmit}>
+                    <form className={styles.form} onSubmit={formik.handleSubmit} data-test="loginForm">
 
                         {/* Input Group */}
                         <div className={styles.inputGroup}>
@@ -103,6 +103,7 @@ const Home: NextPage = () => {
                                     name="username"
                                     value={formik.values.username}
                                     onChange={formik.handleChange}
+                                    data-test="loginUsername"
                                 />
                             </div>
 
@@ -118,6 +119,7 @@ const Home: NextPage = () => {
                                     name="password"
                                     value={formik.values.password}
                                     onChange={formik.handleChange}
+                                    data-test="loginPassword"
                                 />
                             </div>
 
@@ -139,7 +141,7 @@ const Home: NextPage = () => {
                             </div>
 
                             {/* Password Recovery Link */}
-                            <Link href="/passwordRecovery">
+                            <Link href="/passwordRecovery" data-test="loginRecoveryLink">
                                 <span className={styles.passwordRecoveryLink}>
                                     Forgot Password?
                                 </span>
@@ -158,7 +160,7 @@ const Home: NextPage = () => {
                         </div>
 
                         {/* Login Button */}
-                        <div style={{ marginTop: '50px' }}>
+                        <div style={{ marginTop: '50px' }} data-test="loginSubmitButton">
                             <GlowingButton>
                                 Login
                             </GlowingButton>

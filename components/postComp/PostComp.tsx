@@ -91,7 +91,7 @@ const PostComp: React.FC<PostCompProps> = ({ post }) => {
 
     const likeButton =
         (username === null || user.loading || user.error)?
-        <></> : <LikeButton id={`like-btn-${post.postId}`} checked={doesUserLikePost()} onChange={() => userLikePostMutation()} />;
+        <></> : <LikeButton id={`like-btn-${post.postId}`} checked={doesUserLikePost()} onChange={() => userLikePostMutation()} data-test="likeButton" />;
 
     return (
         <div className={styles.main}>
@@ -101,18 +101,18 @@ const PostComp: React.FC<PostCompProps> = ({ post }) => {
                 {/* Left side */}
                 <div className={styles.topLeft}>
                     {/* Profile picture */}
-                    <div className={styles.profilePictureWrapper}>
+                    <div className={styles.profilePictureWrapper} data-test="profilePicture">
                         { profilePicture }
                     </div>
 
                     {/* Username */}
-                    <span className={styles.user}>
+                    <span className={styles.user} data-test="username">
                         @{ post.owner.username }
                     </span>
                 </div>
                 
                 {/** Date created */}
-                <span className={styles.date}>
+                <span className={styles.date} data-test="date">
                     { date }
                 </span>
             </div>
@@ -120,11 +120,11 @@ const PostComp: React.FC<PostCompProps> = ({ post }) => {
             {/** Actual content */}
             <div className={styles.content}>
                 {/** Post title */}
-                <h3 className={styles.title}>
+                <h3 className={styles.title} data-test="title">
                     { post.title ?? <></> }
                 </h3>
                 {/* Post text */}
-                <p className={styles.text}>
+                <p className={styles.text} data-test="text">
                     { post.text ?? <></> }
                 </p>
             </div>

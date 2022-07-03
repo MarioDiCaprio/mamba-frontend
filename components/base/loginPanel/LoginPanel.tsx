@@ -77,6 +77,7 @@ const LoginPanel: React.FC = () => {
                             name="username"
                             value={formik.values.username}
                             onChange={formik.handleChange}
+                            data-test="username"
                         />
                     </div>
 
@@ -92,6 +93,7 @@ const LoginPanel: React.FC = () => {
                             name="password"
                             value={formik.values.password}
                             onChange={formik.handleChange}
+                            data-test="password"
                         />
                     </div>
 
@@ -108,7 +110,7 @@ const LoginPanel: React.FC = () => {
                     <hr className={styles.hr}></hr>
 
                     {/* Login Button */}
-                    <button className={styles.loginButton}>
+                    <button className={styles.loginButton} data-test="login">
                         Login
                     </button>
 

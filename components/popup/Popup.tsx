@@ -20,7 +20,7 @@ const Popup: React.FC<PopupProps> = ({ children, onOutsideClick, open=false }) =
     }
 
     return (
-        <div className={classNames} onClick={handleOutsideClick}>
+        <div className={classNames} onClick={handleOutsideClick} data-test="popup">
             <div className={styles.content}>
                 { children }
             </div>

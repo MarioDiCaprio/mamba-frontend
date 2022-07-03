@@ -76,7 +76,7 @@ const Register: NextPage = () => {
                     </p>
 
                     {/* Form */}
-                    <form className={styles.form} onSubmit={formik.handleSubmit}>
+                    <form className={styles.form} onSubmit={formik.handleSubmit} data-test="registerForm">
 
                         {/* Input Group */}
                         <div className={styles.inputGroup}>
@@ -92,6 +92,7 @@ const Register: NextPage = () => {
                                     name="username"
                                     value={formik.values.username}
                                     onChange={formik.handleChange}
+                                    data-test="registerUsername"
                                 />
                             </div>
 
@@ -107,6 +108,7 @@ const Register: NextPage = () => {
                                     name="email"
                                     value={formik.values.email}
                                     onChange={formik.handleChange}
+                                    data-test="registerEmail"
                                 />
                             </div>
 
@@ -122,6 +124,7 @@ const Register: NextPage = () => {
                                     name="password"
                                     value={formik.values.password}
                                     onChange={formik.handleChange}
+                                    data-test="registerPassword"
                                 />
                             </div>
 
@@ -143,7 +146,9 @@ const Register: NextPage = () => {
                                                 ...formik.values,
                                                 termsAndServices: value
                                             });
-                                        }
+                                        },
+                                        // @ts-ignore
+                                        'data-test': 'registerTermsAndServices'
                                     }}
                                     label={
                                         <span>
@@ -177,7 +182,7 @@ const Register: NextPage = () => {
                         </div>
 
                         {/* Login Button */}
-                        <div style={{ marginTop: '50px' }}>
+                        <div style={{ marginTop: '50px' }} data-test="registerSubmitButton">
                             <GlowingButton>
                                 Register
                             </GlowingButton>

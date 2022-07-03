@@ -15,7 +15,6 @@ $lg: 1200px;
 $xl: 1536px;
 
 // rainbow animation
-//$rainbowGradient: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
 $rainbowGradient: linear-gradient(90deg, $primary, $secondary, $primary);
 $rainbowAnimation: rainbow 1.5s linear infinite;
 @mixin rainbowHoverable {
@@ -61,5 +60,22 @@ $rainbowAnimation: rainbow 1.5s linear infinite;
     }
     100% {
         background-position: 100%;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////
+
+// animation when loading
+$skeletonAnimation: skeletonKeyframes 1.5s cubic-bezier(0.5, 5, 0.5, 5) 0s infinite normal none;
+
+@keyframes skeletonKeyframes {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 0.45;
+    }
+    100% {
+        opacity: 0.5;
     }
 }

@@ -11,7 +11,7 @@ interface LoadingScreenProps {
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ open }) => {
     return (
         <Popup open={open}>
-            <div className={styles.content}>
+            <div className={styles.content} data-test="loadingScreen">
                 <CometSpinner />
             </div>
         </Popup>

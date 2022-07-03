@@ -23,7 +23,7 @@ const AccountPanel: React.FC<AccountPanelProps> = ({ user }) => {
             {/* Profile picture, or nothing if still being fetched */}
             { profilePicture ?? <></> }
             {/* Username */}
-            <span>{ user.username }</span>
+            <span data-test="username">{ user.username }</span>
             {/* Horizontal separator */}
             <hr className={styles.hr} />
             {/* Followers and Following */}
@@ -31,12 +31,16 @@ const AccountPanel: React.FC<AccountPanelProps> = ({ user }) => {
                 {/* Followers */}
                 <div>
                     <span>Followers</span>
-                    <span>{user.followers.length ?? 0}</span>
+                    <span data-test="followers">
+                        {user.followers.length ?? 0}
+                    </span>
                 </div>
                 {/* Following */}
                 <div>
                     <span>Following</span>
-                    <span>{user.following.length ?? 0}</span>
+                    <span data-test="following">
+                        {user.following.length ?? 0}
+                    </span>
                 </div>
             </div>
         </div>

@@ -6,15 +6,30 @@ import { store } from '../redux/store';
 import '../styles/globals.scss';
 
 
-function MyApp({ Component, pageProps }: AppProps) {
+export const Providers: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
     return (
         <ApolloProviderWithClient>
             <ReduxProvider store={store}>
-                <Component {...pageProps} />
+                { children }
             </ReduxProvider>
         </ApolloProviderWithClient>
+    );
+}
 
+
+function MyApp({ Component, pageProps }: AppProps) {
+    return (
+        <Providers>
+            <Component {...pageProps} />
+        </Providers>
     );
 }
 
 export default MyApp
+
+// expose redux store to cypress
+// @ts-ignore
+if (typeof window !== 'undefined' && window.Cypress) {
+    // @ts-ignore
+    window.store = store;
+}

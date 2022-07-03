@@ -1,7 +1,8 @@
 import $ from 'jquery';
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
+import * as yup from "yup";
 import { BsReverseLayoutTextSidebarReverse as TextIcon } from "react-icons/bs";
 import { BsImageFill as ImageIcon } from "react-icons/bs";
 import { BiMoviePlay as VideoIcon } from "react-icons/bi";
@@ -10,6 +11,8 @@ import styles from "./CreatePostPanel.module.scss";
 import { Post, PostType, User } from '../../../graphql/types';
 import { gql, useMutation } from '@apollo/client';
 import LoadingScreen from '../../loadingScreen/LoadingScreen';
+import ImageChooser from '../../imageChooser/ImageChooser';
+import base64ToBlob from '../../../utils/base64ToBlob';
 
 
 type CreateTextPostInput = {
@@ -31,6 +34,28 @@ const CREATE_TEXT_POST_GQL = gql`
     }
 `;
 
+type CreatePicturePostInput = {
+    title?: string;
+    text?: string;
+    media?: number[];
+    userId: string;
+}
+
+const CREATE_PICTURE_POST_GQL = gql`
+    mutation CreatePicturePost($title: String, $text: String, $media: Upload, $userId: String!) {
+        createPost(request: {
+            title: $title,
+            text: $text,
+            media: $media,
+            ownerId: $userId,
+            type: TEXT
+        }) {
+            postId
+        }
+    }
+`;
+
+////////////////////////////////////////////////////////////////////////////////////////
 
 interface PostTypeSelectionProps {
     icon: JSX.Element;
@@ -77,6 +102,10 @@ const TextPost: React.FC<PostProps> = ({ user, onLoading, onClose }) => {
             title: '',
             text: ''
         },
+        validationSchema: yup.object({
+            title: yup.string().required('Title is required'),
+            text: yup.string().optional()
+        }),
         onSubmit: (data) => {
             createTextPost({
                variables: {
@@ -123,7 +152,89 @@ const TextPost: React.FC<PostProps> = ({ user, onLoading, onClose }) => {
                     placeholder="Content"
                     spellCheck="false"
                     className={styles.textPostContentInput}
+                    id="text"
+                    name="text"
+                    value={formik.values.text}
+                    onChange={formik.handleChange}
+                />
+            </div>
+        </form>
+    );
+}
+
+const PicturePost: React.FC<PostProps> = ({ user, onLoading, onClose }) => {
+    const [base64Image, setBase64Image] = useState<string | null>(null);
+
+    const [createPicturePost, { loading }] = useMutation<{ createPost: Post }, CreatePicturePostInput>(CREATE_PICTURE_POST_GQL);
+
+    useEffect(() => {
+        if (onLoading) onLoading(loading);
+    });
+
+    const router = useRouter();
+
+    const formik = useFormik({
+        initialValues: {
+            title: '',
+            text: ''
+        },
+        validationSchema: yup.object({
+            title: yup.string().required('Title is required'),
+            text: yup.string().optional()
+        }),
+        onSubmit: (data) => {
+            console.log('hello')
+            console.log(base64ToBlob(base64Image))
+            createPicturePost({
+               variables: {
+                   title: data.title,
+                   text: data.text,
+                   // @ts-ignore
+                   media: base64ToBlob(base64Image) ?? undefined,
+                   userId: user?.userId ?? ''
+                } 
+            })
+            .then(() => {
+                router.reload();
+            });
+        }
+    });
+
+    function handleClose() {
+        if (onClose) {
+            onClose();
+        }
+    }
+
+    return (
+        <form className={styles.picturePost} onSubmit={formik.handleSubmit}>
+            <div className={styles.postHeader}>
+                <button type="button" onClick={handleClose} className={styles.closePostButton}>
+                    Close
+                </button>
+                Make Picture Post
+                <button type="submit" className={styles.submitPostButton}>
+                    Post
+                </button>
+            </div>
+            <div className={styles.postForm}>
+                <div className={styles.picturePostImageChooser}>
+                    <ImageChooser onUpload={base64 => setBase64Image(base64)} />
+                </div>
+                <input
+                    placeholder="Title"
+                    spellCheck="false"
+                    className={styles.picturePostTitleInput}
                     required
+                    id="title"
+                    name="title"
+                    value={formik.values.title}
+                    onChange={formik.handleChange}
+                />
+                <textarea
+                    placeholder="Content"
+                    spellCheck="false"
+                    className={styles.picturePostContentInput}
                     id="text"
                     name="text"
                     value={formik.values.text}
@@ -157,6 +268,9 @@ const CreatePostPanel: React.FC<CreatePostPanelProps> = ({ user }) => {
             case "TEXT":
                 $('.' + styles.textPost).addClass(styles.postFlipped);
                 break;
+            case "PICTURE":
+                $('.' + styles.picturePost).addClass(styles.postFlipped);
+                break;
         }
         setTypeSelected(type);
     }
@@ -167,15 +281,17 @@ const CreatePostPanel: React.FC<CreatePostPanelProps> = ({ user }) => {
             case "TEXT":
                 $('.' + styles.textPost).removeClass(styles.postFlipped);
                 break;
+            case "PICTURE":
+                $('.' + styles.picturePost).removeClass(styles.postFlipped);
+                break;
         }
         setTypeSelected(undefined);
     }
 
     function handlePopupOutsideClick() {
         if (typeSelected) {
-            $('.' + styles.textPost).removeClass(styles.postFlipped);
+            handleClose();
             $('.' + styles.postTypePopup).removeClass(styles.postTypeSelectionFlipped);
-            setTypeSelected(undefined);
         }
         $('.' + styles.postTypePopup).removeClass(styles.postTypeSelectionTransitions);
         setSelectionOpen(false);
@@ -199,6 +315,12 @@ const CreatePostPanel: React.FC<CreatePostPanelProps> = ({ user }) => {
         return <></>;
     }
 
+    const postPanelProps: PostProps = {
+        user: user,
+        onLoading: handleLoading,
+        onClose: handleClose
+    }
+
     return (
         <div>
             {/* Loading screen when making API calls */}
@@ -206,7 +328,8 @@ const CreatePostPanel: React.FC<CreatePostPanelProps> = ({ user }) => {
 
             {/* Popup to make selection */}
             <Popup open={selectionOpen} onOutsideClick={handlePopupOutsideClick}>
-                <TextPost user={user} onLoading={handleLoading} onClose={handleClose} />
+                <TextPost {...postPanelProps} />
+                <PicturePost {...postPanelProps} />
                 <div className={styles.postTypePopup}>
                     <div className={styles.postTypeHeader}>
                         Make A Post

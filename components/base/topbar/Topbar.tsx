@@ -100,12 +100,16 @@ const BtnMenu: React.FC<BtnMenuProps> = ({ user }) => {
         // if user not logged in: link to login page
         if (user === undefined) {
             return (
-                <div className={styles.loginLink}>
+                <div className={styles.loginLink} data-test="loginLink">
                     <Link href="/">Login</Link>
                 </div>
             );
         }
-        return convertBinaryProfilePicture(user?.profilePicture, { className: styles.menuIcon });
+        return (
+            <div data-test="accountLink">
+                { convertBinaryProfilePicture(user?.profilePicture, { className: styles.menuIcon}) }
+            </div>
+        );
     }
 
     return (
